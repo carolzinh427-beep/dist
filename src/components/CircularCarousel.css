@@ -35,8 +35,8 @@
 }
 
 .circular-carousel[data-shape='wheel'] .circular-carousel__view {
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000000 18%, #000000 82%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000000 18%, #000000 82%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000000 10%, #000000 90%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000000 10%, #000000 90%, transparent);
 }
 
 .circular-carousel[data-shape='panorama'] .circular-carousel__view {

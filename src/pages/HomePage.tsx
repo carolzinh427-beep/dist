@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BUSINESS_SEGMENTS, COMPANY_CONFIG, MUNICIPALITIES_COVERAGE } from '../config/company';
 import { CATEGORIES, PRODUCTS } from '../data/products';
@@ -12,7 +12,23 @@ import GlassIcons, { GlassIconsItem } from '../components/GlassIcons';
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [featuredStartIndex, setFeaturedStartIndex] = useState<number>(0);
-  const [selectedUnitKey, setSelectedUnitKey] = useState<string>('fardo');
+  const [activePopupUnit, setActivePopupUnit] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(() => (typeof window !== 'undefined' ? window.innerWidth < 768 : false));
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!activePopupUnit) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActivePopupUnit(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activePopupUnit]);
 
   // Informações detalhadas das unidades de comercialização
   const unitsInfo: Record<string, { title: string; subtitle: string; explanation: string; example: string; tag: string }> = {
@@ -46,8 +62,6 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  const activeUnitData = unitsInfo[selectedUnitKey] || unitsInfo.fardo;
-
   const glassUnitItems: GlassIconsItem[] = [
     {
       id: 'fardo',
@@ -60,7 +74,7 @@ export const HomePage: React.FC = () => {
           <path d="M2 12h20" />
         </svg>
       ),
-      onClick: () => setSelectedUnitKey('fardo')
+      onClick: () => setActivePopupUnit('fardo')
     },
     {
       id: 'caixa',
@@ -73,31 +87,31 @@ export const HomePage: React.FC = () => {
           <path d="M12 13v8" />
         </svg>
       ),
-      onClick: () => setSelectedUnitKey('caixa')
+      onClick: () => setActivePopupUnit('caixa')
     },
     {
       id: 'pacote',
       label: 'Pacote',
-      color: 'teal',
+      color: 'green',
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <rect x="3" y="3" width="18" height="18" rx="3" />
           <path d="M3 9h18M9 21V9" />
         </svg>
       ),
-      onClick: () => setSelectedUnitKey('pacote')
+      onClick: () => setActivePopupUnit('pacote')
     },
     {
       id: 'unidade',
       label: 'Unidade',
-      color: 'green',
+      color: 'orange',
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M6 3h12l2 6v11a2 2 0 01-2 2H6a2 2 0 01-2-2V9l2-6z" />
           <path d="M10 13h4M10 3v6" />
         </svg>
       ),
-      onClick: () => setSelectedUnitKey('unidade')
+      onClick: () => setActivePopupUnit('unidade')
     }
   ];
 
@@ -303,11 +317,11 @@ export const HomePage: React.FC = () => {
           <div className="carousel-wrapper-block">
             <CircularCarousel
               items={categoryCarouselItems}
-              preset="orbit"
+              preset={isMobile ? 'wheel' : 'orbit'}
               intro="rise"
-              cardWidth={340}
-              aspectRatio={1.38}
-              gap={32}
+              cardWidth={isMobile ? 280 : 340}
+              aspectRatio={isMobile ? 1.55 : 1.38}
+              gap={isMobile ? 22 : 32}
               speed={10}
               curve={0}
               captions={false}
@@ -440,9 +454,9 @@ export const HomePage: React.FC = () => {
             <div className="glass-units-icons-holder">
               <GlassIcons
                 items={glassUnitItems}
-                size={92}
-                gap={36}
-                columns={4}
+                size={isMobile ? 86 : 92}
+                gap={isMobile ? 32 : 36}
+                columns={isMobile ? 2 : 4}
                 roundness={0.5}
                 refraction={0.85}
                 bevel={0.65}
@@ -459,37 +473,78 @@ export const HomePage: React.FC = () => {
                 parallax={0.8}
                 labels="always"
                 intro={true}
-                theme="dark"
+                theme="light"
               />
-            </div>
-
-            {/* Cartão de Informação Dinâmico com acabamento de vidro verde e transparente */}
-            <div className="glass-unit-info-card" key={selectedUnitKey}>
-              <div className="glass-unit-info-header">
-                <div className="glass-unit-info-pill">
-                  <span className="badge-unit">{activeUnitData.tag}</span>
-                </div>
-                <h3 className="glass-unit-info-title">{activeUnitData.title}</h3>
-                <span className="glass-unit-info-subtitle">{activeUnitData.subtitle}</span>
-              </div>
-
-              <div className="glass-unit-info-body">
-                <p className="glass-unit-info-desc">{activeUnitData.explanation}</p>
-                <div className="glass-unit-info-example">
-                  <strong>Exemplo prático de reposição:</strong>
-                  <span>{activeUnitData.example}</span>
-                </div>
-              </div>
-
-              <div className="glass-unit-info-footer">
-                <Link to="/catalogo" className="btn btn-secondary btn-sm">
-                  Ver produtos disponíveis nesta modalidade
-                </Link>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Pop-up Modal explicativo para a embalagem selecionada */}
+      {activePopupUnit && unitsInfo[activePopupUnit] && (
+        <div
+          className="unit-popup-backdrop"
+          onClick={() => setActivePopupUnit(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="unit-popup-title"
+        >
+          <div
+            className="unit-popup-box"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="unit-popup-close-btn"
+              onClick={() => setActivePopupUnit(null)}
+              aria-label="Fechar janela"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="unit-popup-header">
+              <div className="unit-popup-badge-wrapper">
+                <span className="badge-unit">{unitsInfo[activePopupUnit].tag}</span>
+              </div>
+              <h3 id="unit-popup-title" className="unit-popup-title">
+                {unitsInfo[activePopupUnit].title}
+              </h3>
+              <span className="unit-popup-subtitle">
+                {unitsInfo[activePopupUnit].subtitle}
+              </span>
+            </div>
+
+            <div className="unit-popup-body">
+              <p className="unit-popup-desc">
+                {unitsInfo[activePopupUnit].explanation}
+              </p>
+              <div className="unit-popup-example">
+                <strong>Exemplo prático de reposição:</strong>
+                <span>{unitsInfo[activePopupUnit].example}</span>
+              </div>
+            </div>
+
+            <div className="unit-popup-footer">
+              <Link
+                to="/catalogo"
+                className="btn btn-secondary btn-sm"
+                onClick={() => setActivePopupUnit(null)}
+              >
+                Ver produtos nesta modalidade
+              </Link>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => setActivePopupUnit(null)}
+              >
+                Entendido
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Seção: Do catálogo ao seu estoque com Stepper */}
       <section className="section-block section-forest">
@@ -621,27 +676,6 @@ export const HomePage: React.FC = () => {
                   Consultar entregas e regiões
                 </Link>
               </div>
-            </div>
-
-            <div className="regional-home-summary">
-              <h3 className="regional-summary-heading">Pronto para organizar seu pedido?</h3>
-              <p className="regional-summary-text">
-                Monte sua lista de produtos no catálogo e gere seu resumo de orçamento para atendimento comercial
-              </p>
-              <dl className="regional-summary-dl">
-                <div>
-                  <dt>Localização base</dt>
-                  <dd>{COMPANY_CONFIG.location.city}, {COMPANY_CONFIG.location.state}</dd>
-                </div>
-                <div>
-                  <dt>Horário de atendimento</dt>
-                  <dd>{COMPANY_CONFIG.businessHours.summary}</dd>
-                </div>
-                <div>
-                  <dt>Condições logísticas</dt>
-                  <dd>{COMPANY_CONFIG.deliveryConfig.defaultStatusText}</dd>
-                </div>
-              </dl>
             </div>
           </div>
         </div>

@@ -24,9 +24,25 @@ export const CatalogPage: React.FC = () => {
   const [selectedBrand, setSelectedBrand] = useState('todas');
   const [selectedPackaging, setSelectedPackaging] = useState('todas');
   const [selectedUnit, setSelectedUnit] = useState('todas');
-  const [activeUnitModal, setActiveUnitModal] = useState<string>('fardo');
+  const [activeUnitModal, setActiveUnitModal] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('relevancia');
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(() => (typeof window !== 'undefined' ? window.innerWidth < 768 : false));
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!activeUnitModal) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveUnitModal(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeUnitModal]);
 
   const unitsGuideDetails: Record<string, { title: string; subtitle: string; explanation: string; example: string; tag: string }> = {
     fardo: {
@@ -59,8 +75,6 @@ export const CatalogPage: React.FC = () => {
     }
   };
 
-  const currentUnitInfo = unitsGuideDetails[activeUnitModal] || unitsGuideDetails.fardo;
-
   const catalogGlassItems: GlassIconsItem[] = [
     {
       id: 'fardo',
@@ -91,7 +105,7 @@ export const CatalogPage: React.FC = () => {
     {
       id: 'pacote',
       label: 'Pacote',
-      color: 'teal',
+      color: 'green',
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <rect x="3" y="3" width="18" height="18" rx="3" />
@@ -103,7 +117,7 @@ export const CatalogPage: React.FC = () => {
     {
       id: 'unidade',
       label: 'Unidade',
-      color: 'green',
+      color: 'orange',
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M6 3h12l2 6v11a2 2 0 01-2 2H6a2 2 0 01-2-2V9l2-6z" />
@@ -241,9 +255,9 @@ export const CatalogPage: React.FC = () => {
             <div className="glass-units-icons-holder">
               <GlassIcons
                 items={catalogGlassItems}
-                size={86}
-                gap={32}
-                columns={4}
+                size={isMobile ? 86 : 92}
+                gap={isMobile ? 32 : 36}
+                columns={isMobile ? 2 : 4}
                 roundness={0.5}
                 refraction={0.85}
                 bevel={0.65}
@@ -260,30 +274,81 @@ export const CatalogPage: React.FC = () => {
                 parallax={0.8}
                 labels="always"
                 intro={true}
-                theme="dark"
+                theme="light"
               />
-            </div>
-
-            <div className="glass-unit-info-card" key={activeUnitModal}>
-              <div className="glass-unit-info-header">
-                <div className="glass-unit-info-pill">
-                  <span className="badge-unit">{currentUnitInfo.tag}</span>
-                </div>
-                <h3 className="glass-unit-info-title">{currentUnitInfo.title}</h3>
-                <span className="glass-unit-info-subtitle">{currentUnitInfo.subtitle}</span>
-              </div>
-
-              <div className="glass-unit-info-body">
-                <p className="glass-unit-info-desc">{currentUnitInfo.explanation}</p>
-                <div className="glass-unit-info-example">
-                  <strong>Exemplo prático de embalagem:</strong>
-                  <span>{currentUnitInfo.example}</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Pop-up Modal explicativo para a embalagem selecionada no Catálogo */}
+      {activeUnitModal && unitsGuideDetails[activeUnitModal] && (
+        <div
+          className="unit-popup-backdrop"
+          onClick={() => setActiveUnitModal(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="catalog-unit-popup-title"
+        >
+          <div
+            className="unit-popup-box"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="unit-popup-close-btn"
+              onClick={() => setActiveUnitModal(null)}
+              aria-label="Fechar janela"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="unit-popup-header">
+              <div className="unit-popup-badge-wrapper">
+                <span className="badge-unit">{unitsGuideDetails[activeUnitModal].tag}</span>
+              </div>
+              <h3 id="catalog-unit-popup-title" className="unit-popup-title">
+                {unitsGuideDetails[activeUnitModal].title}
+              </h3>
+              <span className="unit-popup-subtitle">
+                {unitsGuideDetails[activeUnitModal].subtitle}
+              </span>
+            </div>
+
+            <div className="unit-popup-body">
+              <p className="unit-popup-desc">
+                {unitsGuideDetails[activeUnitModal].explanation}
+              </p>
+              <div className="unit-popup-example">
+                <strong>Exemplo prático de embalagem:</strong>
+                <span>{unitsGuideDetails[activeUnitModal].example}</span>
+              </div>
+            </div>
+
+            <div className="unit-popup-footer">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => {
+                  setSelectedUnit(activeUnitModal);
+                  setActiveUnitModal(null);
+                }}
+              >
+                Filtrar produtos por {activeUnitModal}
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={() => setActiveUnitModal(null)}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Corpo do Catálogo com Barra de Busca/Filtros e Grade */}
       <section className="section-block section-warm">

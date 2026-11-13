@@ -48,7 +48,7 @@ export const HomePage: React.FC = () => {
       slug: 'higiene-profissional'
     },
     {
-      src: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=800&q=80',
+      src: 'https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?auto=format&fit=crop&w=800&q=80',
       alt: 'Descartáveis e embalagens: copos, mangas e sacos de lixo',
       title: 'Descartáveis e Embalagens',
       subtitle: 'Copos Plásticos e Sacos 100 L',

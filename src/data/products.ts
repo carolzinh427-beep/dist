@@ -57,6 +57,7 @@ export interface ProductItem {
   code: string;
   slug: string;
   name: string;
+  imageUrl: string;
   categorySlug: CategorySlug;
   categoryName: string;
   brand: string;
@@ -178,6 +179,7 @@ export const CATEGORIES: CategoryInfo[] = [
 export const PRODUCTS: ProductItem[] = [
   {
     code: 'VRT 101',
+    imageUrl: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?auto=format&fit=crop&w=800&q=80',
     slug: 'agua-mineral-sem-gas-500ml',
     name: 'Água mineral sem gás 500 ml',
     categorySlug: 'bebidas-nao-alcoolicas',
@@ -199,6 +201,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 102',
+    imageUrl: 'https://images.unsplash.com/photo-1559839914-17aae19cec71?auto=format&fit=crop&w=800&q=80',
     slug: 'agua-mineral-com-gas-500ml',
     name: 'Água mineral com gás 500 ml',
     categorySlug: 'bebidas-nao-alcoolicas',
@@ -220,6 +223,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 103',
+    imageUrl: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80',
     slug: 'refrigerante-sabor-cola-2l',
     name: 'Refrigerante sabor cola 2 L',
     categorySlug: 'bebidas-nao-alcoolicas',
@@ -241,6 +245,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 104',
+    imageUrl: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
     slug: 'suco-de-uva-integral-1l',
     name: 'Suco de uva integral 1 L',
     categorySlug: 'bebidas-nao-alcoolicas',
@@ -262,6 +267,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 201',
+    imageUrl: 'https://images.unsplash.com/photo-1584225064785-c62a8b43d148?auto=format&fit=crop&w=800&q=80',
     slug: 'cerveja-pilsen-350ml',
     name: 'Cerveja pilsen 350 ml',
     categorySlug: 'cervejas-e-bebidas-alcoolicas',
@@ -283,6 +289,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 202',
+    imageUrl: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=800&q=80',
     slug: 'cerveja-puro-malte-garrafa-600ml',
     name: 'Cerveja puro malte 600 ml',
     categorySlug: 'cervejas-e-bebidas-alcoolicas',
@@ -304,6 +311,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 301',
+    imageUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
     slug: 'arroz-branco-5kg',
     name: 'Arroz branco 5 kg',
     categorySlug: 'alimentos-e-mercearia',
@@ -325,6 +333,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 302',
+    imageUrl: 'https://images.unsplash.com/photo-1551462147-ff29053bfc14?auto=format&fit=crop&w=800&q=80',
     slug: 'feijao-carioca-1kg',
     name: 'Feijão carioca 1 kg',
     categorySlug: 'alimentos-e-mercearia',
@@ -346,6 +355,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 303',
+    imageUrl: 'https://images.unsplash.com/photo-1587735243615-c03f25aaff15?auto=format&fit=crop&w=800&q=80',
     slug: 'acucar-cristal-1kg',
     name: 'Açúcar cristal 1 kg',
     categorySlug: 'alimentos-e-mercearia',
@@ -367,6 +377,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 304',
+    imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     slug: 'cafe-torrado-e-moido-500g',
     name: 'Café torrado e moído 500 g',
     categorySlug: 'alimentos-e-mercearia',
@@ -388,6 +399,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 305',
+    imageUrl: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80',
     slug: 'oleo-de-soja-900ml',
     name: 'Óleo de soja 900 ml',
     categorySlug: 'alimentos-e-mercearia',
@@ -409,6 +421,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 401',
+    imageUrl: 'https://images.unsplash.com/photo-1585670210693-e7fdd16b142e?auto=format&fit=crop&w=800&q=80',
     slug: 'detergente-neutro-500ml',
     name: 'Detergente neutro 500 ml',
     categorySlug: 'produtos-de-limpeza',
@@ -430,6 +443,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 402',
+    imageUrl: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=800&q=80',
     slug: 'desinfetante-2l',
     name: 'Desinfetante 2 L',
     categorySlug: 'produtos-de-limpeza',
@@ -451,6 +465,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 403',
+    imageUrl: 'https://images.unsplash.com/photo-1584813470613-5b1c1cad3d69?auto=format&fit=crop&w=800&q=80',
     slug: 'agua-sanitaria-1l',
     name: 'Água sanitária 1 L',
     categorySlug: 'produtos-de-limpeza',
@@ -472,6 +487,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 404',
+    imageUrl: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=800&q=80',
     slug: 'limpador-multiuso-500ml',
     name: 'Limpador multiuso 500 ml',
     categorySlug: 'produtos-de-limpeza',
@@ -493,6 +509,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 501',
+    imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
     slug: 'sabonete-liquido-5l',
     name: 'Sabonete líquido 5 L',
     categorySlug: 'higiene-profissional',
@@ -514,6 +531,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 502',
+    imageUrl: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=800&q=80',
     slug: 'papel-higienico-institucional',
     name: 'Papel higiênico institucional',
     categorySlug: 'higiene-profissional',
@@ -535,6 +553,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 503',
+    imageUrl: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=800&q=80',
     slug: 'papel-toalha-interfolhado',
     name: 'Papel toalha interfolhado',
     categorySlug: 'higiene-profissional',
@@ -556,6 +575,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 601',
+    imageUrl: 'https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?auto=format&fit=crop&w=800&q=80',
     slug: 'copo-descartavel-200ml',
     name: 'Copo descartável 200 ml',
     categorySlug: 'descartaveis-e-embalagens',
@@ -577,6 +597,7 @@ export const PRODUCTS: ProductItem[] = [
   },
   {
     code: 'VRT 602',
+    imageUrl: 'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?auto=format&fit=crop&w=800&q=80',
     slug: 'saco-para-lixo-100l',
     name: 'Saco para lixo 100 L',
     categorySlug: 'descartaveis-e-embalagens',

@@ -10,8 +10,7 @@ export const ProductVisual: React.FC<ProductVisualProps> = ({
   product,
   size = 'card',
 }) => {
-  const width = size === 'detail' ? 420 : 280;
-  const height = size === 'detail' ? 340 : 220;
+  const [imageError, setImageError] = React.useState(false);
 
   const renderIllustration = () => {
     switch (product.visualKind) {
@@ -281,28 +280,60 @@ export const ProductVisual: React.FC<ProductVisualProps> = ({
   return (
     <div
       className={`product-visual-container ${size === 'detail' ? 'product-visual-detail' : ''}`}
-      style={{ aspectRatio: `${width} / ${height}` }}
     >
-      <svg
-        width={width}
-        height={height}
-        viewBox="0 0 280 200"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        role="img"
-        aria-label={`Representação da embalagem de ${product.name} em ${product.packQuantityDescription}`}
-        className="product-visual-svg"
-      >
-        <rect width="280" height="200" rx="8" fill="#F1F3EE" />
-        {/* Grade sutil de fundo técnico */}
-        <path d="M0 168H280" stroke="#DDE2DA" strokeWidth="1.5" />
-        {renderIllustration()}
-      </svg>
+      {product.imageUrl && !imageError ? (
+        <img
+          src={product.imageUrl}
+          alt={`Foto de ${product.name}`}
+          loading="lazy"
+          onError={() => setImageError(true)}
+          className="product-visual-photo"
+        />
+      ) : (
+        <svg
+          viewBox="0 0 280 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label={`Representação de ${product.name}`}
+          className="product-visual-svg"
+        >
+          <rect width="280" height="200" rx="8" fill="#F1F3EE" />
+          <path d="M0 168H280" stroke="#DDE2DA" strokeWidth="1.5" />
+          {renderIllustration()}
+        </svg>
+      )}
     </div>
   );
 };
 
+const categoryPhotos: Record<CategorySlug, string> = {
+  'bebidas-nao-alcoolicas': 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+  'cervejas-e-bebidas-alcoolicas': 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=800&q=80',
+  'alimentos-e-mercearia': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
+  'produtos-de-limpeza': 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=800&q=80',
+  'higiene-profissional': 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
+  'descartaveis-e-embalagens': 'https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?auto=format&fit=crop&w=800&q=80'
+};
+
 export const CategoryVisual: React.FC<{ slug: CategorySlug }> = ({ slug }) => {
+  const [photoError, setPhotoError] = React.useState(false);
+  const photoUrl = categoryPhotos[slug];
+
+  if (photoUrl && !photoError) {
+    return (
+      <div className="category-visual-box-photo">
+        <img
+          src={photoUrl}
+          alt={`Visual da categoria ${slug}`}
+          loading="lazy"
+          onError={() => setPhotoError(true)}
+          className="category-visual-img"
+        />
+      </div>
+    );
+  }
+
   return (
     <svg
       width="120"

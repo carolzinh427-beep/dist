@@ -10,8 +10,20 @@ import Stepper, { Step } from '../components/Stepper';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const featuredProducts = PRODUCTS.filter((p) => p.featuredOnHome);
+  const [featuredStartIndex, setFeaturedStartIndex] = useState<number>(0);
   const [activeSegmentIndex, setActiveSegmentIndex] = useState<number>(0);
+
+  // Exibição de produtos demonstrativos com paginação/navegação por setas (4 por linha no desktop / 3 no mobile)
+  const allProducts = PRODUCTS;
+  const totalProducts = allProducts.length;
+
+  const handlePrevProducts = () => {
+    setFeaturedStartIndex((prev) => (prev - 4 < 0 ? Math.max(0, totalProducts - 4) : prev - 4));
+  };
+
+  const handleNextProducts = () => {
+    setFeaturedStartIndex((prev) => (prev + 4 >= totalProducts ? 0 : prev + 4));
+  };
 
   // Mapeamento das 6 categorias com fotos temáticas de alta qualidade para o CircularCarousel
   const categoryCarouselItems: CarouselItem[] = [
@@ -231,15 +243,63 @@ export const HomePage: React.FC = () => {
                 Confira exemplos do catálogo com indicação de conteúdo unitário, quantidade por embalagem coletiva e unidade de comercialização
               </p>
             </div>
-            <Link to="/catalogo" className="btn btn-primary">
-              Conferir todos os 20 itens
-            </Link>
+            <div className="featured-heading-controls">
+              <div className="featured-nav-arrows" aria-label="Navegar entre produtos">
+                <button
+                  type="button"
+                  onClick={handlePrevProducts}
+                  className="featured-arrow-btn"
+                  aria-label="Ver produtos anteriores"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextProducts}
+                  className="featured-arrow-btn"
+                  aria-label="Ver mais produtos ao lado"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+              <Link to="/catalogo" className="btn btn-primary">
+                Conferir todos os 20 itens
+              </Link>
+            </div>
           </div>
 
-          <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.code} product={product} />
-            ))}
+          <div className="featured-showcase-wrapper">
+            <button
+              type="button"
+              onClick={handlePrevProducts}
+              className="featured-side-arrow featured-side-arrow-prev"
+              aria-label="Ver produtos anteriores"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+
+            <div className="products-grid featured-products-grid">
+              {allProducts.slice(featuredStartIndex, featuredStartIndex + 4).map((product) => (
+                <ProductCard key={product.code} product={product} />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={handleNextProducts}
+              className="featured-side-arrow featured-side-arrow-next"
+              aria-label="Ver mais produtos ao lado"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>

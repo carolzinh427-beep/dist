@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BUSINESS_SEGMENTS, COMPANY_CONFIG, MUNICIPALITIES_COVERAGE } from '../config/company';
 import { CATEGORIES, PRODUCTS } from '../data/products';
 import { PageMeta } from '../components/PageMeta';
 import { ProductCard } from '../components/ProductCard';
 import { CircularCarousel, CarouselItem } from '../components/CircularCarousel';
+import Carousel, { CarouselItem as TiltCarouselItem } from '../components/Carousel';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const featuredProducts = PRODUCTS.filter((p) => p.featuredOnHome);
+  const [activeSegmentIndex, setActiveSegmentIndex] = useState<number>(0);
 
   // Mapeamento das 6 categorias com fotos temáticas de alta qualidade para o CircularCarousel
   const categoryCarouselItems: CarouselItem[] = [
@@ -61,6 +63,84 @@ export const HomePage: React.FC = () => {
       navigate(`/categoria/${item.slug}`);
     }
   };
+
+  const segmentCarouselItems: TiltCarouselItem[] = [
+    {
+      id: 'mercados',
+      title: 'Mercados e mercearias',
+      description: 'Reposição de grãos, bebidas e produtos de limpeza em fardos e caixas fechadas para revenda direta',
+      image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80',
+      alt: 'Prateleiras abastecidas em mercado e mercearia',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" />
+        </svg>
+      )
+    },
+    {
+      id: 'bares',
+      title: 'Bares e casas noturnas',
+      description: 'Bebidas geladas, copos descartáveis e insumos de higienização rápida para salão e balcão',
+      image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80',
+      alt: 'Balcão de bar e atendimento com bebidas',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path d="M8 21h8M12 15v6M5 3l7 8 7-8H5z" />
+        </svg>
+      )
+    },
+    {
+      id: 'restaurantes',
+      title: 'Restaurantes e cozinhas',
+      description: 'Insumos secos de cozinha, bebidas de acompanhamento e linha pesada de limpeza alimentar',
+      image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+      alt: 'Cozinha profissional de restaurante',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3" />
+        </svg>
+      )
+    },
+    {
+      id: 'lanchonetes',
+      title: 'Lanchonetes e padarias',
+      description: 'Bebidas individuais em lata e garrafa, embalagens descartáveis para viagem e higiene de balcão',
+      image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+      alt: 'Atendimento e balcão de lanchonete e padaria',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path d="M12 2a5 5 0 015 5c0 2.76-2.24 5-5 5s-5-2.24-5-5a5 5 0 015-5zM4 22v-2a6 6 0 0112 0v2" />
+        </svg>
+      )
+    },
+    {
+      id: 'escritorios',
+      title: 'Escritórios e clínicas',
+      description: 'Café moído, açúcar, água mineral, copos descartáveis e linha de papel institucional para recepção e copa',
+      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
+      alt: 'Ambiente corporativo de escritório e recepção',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+          <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+        </svg>
+      )
+    },
+    {
+      id: 'condominios',
+      title: 'Condomínios e conservação',
+      description: 'Água sanitária, desinfetantes e sabonete em galões de 5 litros, além de sacos de lixo de 100 litros',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
+      alt: 'Fachada e áreas comuns de condomínio residencial e comercial',
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+          <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9h1M9 13h1M9 17h1M15 13h1M15 17h1" />
+        </svg>
+      )
+    }
+  ];
+
+  const currentSegment = BUSINESS_SEGMENTS[activeSegmentIndex] || BUSINESS_SEGMENTS[0];
 
   return (
     <>
@@ -174,7 +254,7 @@ export const HomePage: React.FC = () => {
       {/* Seção: Abastecimento para cada tipo de negócio */}
       <section id="segmentos" className="section-block section-warm">
         <div className="container">
-          <div className="section-heading-row">
+          <div className="section-heading-row text-center-block">
             <div>
               <span className="section-kicker">Perfil de compra empresarial</span>
               <h2 className="section-title">Abastecimento para cada tipo de negócio</h2>
@@ -184,28 +264,49 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="segments-grid">
-            {BUSINESS_SEGMENTS.map((segment) => (
-              <article key={segment.id} className="segment-card">
-                <div className="segment-card-header">
-                  <h3 className="segment-card-title">{segment.name}</h3>
-                  <p className="segment-card-summary">{segment.summary}</p>
-                </div>
-                <ul className="segment-needs-list">
-                  {segment.needs.map((need, idx) => (
-                    <li key={idx}>{need}</li>
-                  ))}
-                </ul>
-                <div className="segment-card-footer">
-                  <Link
-                    to={`/categoria/${segment.recommendedCategories[0]}`}
-                    className="segment-link"
-                  >
-                    Ver produtos indicados para este perfil
-                  </Link>
-                </div>
-              </article>
-            ))}
+          {/* Carrossel interativo React Bits com suporte a arrasto, setas, dots e efeito tilt */}
+          <div className="business-carousel-wrapper">
+            <Carousel
+              items={segmentCarouselItems}
+              baseWidth={380}
+              aspectRatio={1.22}
+              effect="tilt"
+              indicator="dots"
+              frame={true}
+              arrows={true}
+              loop={true}
+              autoplay={true}
+              autoplayDelay={3800}
+              pauseOnHover={true}
+              theme="dark"
+              onChange={(index) => setActiveSegmentIndex(index)}
+            />
+          </div>
+
+          {/* Detalhes interativos do segmento ativo */}
+          <div className="business-segment-active-detail">
+            <div className="business-segment-detail-header">
+              <div>
+                <span className="badge-unit">Perfil selecionado no carrossel</span>
+                <h3 className="business-segment-detail-title">{currentSegment.name}</h3>
+                <p className="business-segment-detail-summary">{currentSegment.summary}</p>
+              </div>
+              <Link
+                to={`/categoria/${currentSegment.recommendedCategories[0]}`}
+                className="btn btn-primary"
+              >
+                Ver catálogo para este perfil
+              </Link>
+            </div>
+
+            <div className="business-segment-needs-block">
+              <h4 className="business-segment-needs-title">Demandas frequentes de reposição</h4>
+              <ul className="segment-needs-list">
+                {currentSegment.needs.map((need, idx) => (
+                  <li key={idx}>{need}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

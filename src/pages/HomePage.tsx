@@ -11,7 +11,6 @@ import Stepper, { Step } from '../components/Stepper';
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [featuredStartIndex, setFeaturedStartIndex] = useState<number>(0);
-  const [activeSegmentIndex, setActiveSegmentIndex] = useState<number>(0);
 
   // Exibição de produtos demonstrativos com paginação/navegação por setas (4 por linha no desktop / 3 no mobile)
   const allProducts = PRODUCTS;
@@ -152,8 +151,6 @@ export const HomePage: React.FC = () => {
       )
     }
   ];
-
-  const currentSegment = BUSINESS_SEGMENTS[activeSegmentIndex] || BUSINESS_SEGMENTS[0];
 
   return (
     <>
@@ -332,34 +329,7 @@ export const HomePage: React.FC = () => {
               autoplayDelay={3800}
               pauseOnHover={true}
               theme="dark"
-              onChange={(index) => setActiveSegmentIndex(index)}
             />
-          </div>
-
-          {/* Detalhes interativos do segmento ativo */}
-          <div className="business-segment-active-detail">
-            <div className="business-segment-detail-header">
-              <div>
-                <span className="badge-unit">Perfil selecionado no carrossel</span>
-                <h3 className="business-segment-detail-title">{currentSegment.name}</h3>
-                <p className="business-segment-detail-summary">{currentSegment.summary}</p>
-              </div>
-              <Link
-                to={`/categoria/${currentSegment.recommendedCategories[0]}`}
-                className="btn btn-primary"
-              >
-                Ver catálogo para este perfil
-              </Link>
-            </div>
-
-            <div className="business-segment-needs-block">
-              <h4 className="business-segment-needs-title">Demandas frequentes de reposição</h4>
-              <ul className="segment-needs-list">
-                {currentSegment.needs.map((need, idx) => (
-                  <li key={idx}>{need}</li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </section>

@@ -208,6 +208,102 @@
   white-space: nowrap;
 }
 
+/* ==========================================================================
+   CONTEÚDO E TEXTOS DENTRO DOS CARDS DO CARROSSEL
+   ========================================================================== */
+.circular-carousel__card-overlay {
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 61, 50, 0.05) 0%,
+    rgba(18, 61, 50, 0.25) 35%,
+    rgba(18, 61, 50, 0.88) 75%,
+    rgba(18, 61, 50, 0.98) 100%
+  );
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.22);
+  transition: background 0.3s ease;
+}
+
+.circular-carousel__card:hover .circular-carousel__card-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 61, 50, 0.1) 0%,
+    rgba(18, 61, 50, 0.35) 30%,
+    rgba(18, 61, 50, 0.92) 70%,
+    rgba(18, 61, 50, 1) 100%
+  );
+}
+
+.circular-carousel__card-content {
+  padding: 18px 20px 20px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  transform: translateZ(1px);
+}
+
+.circular-carousel__card-badge {
+  align-self: flex-start;
+  display: inline-block;
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background-color: var(--orange-accent, #F47B35);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+.circular-carousel__card-name {
+  margin: 0;
+  font-family: var(--font-heading, system-ui);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.circular-carousel__card-desc {
+  margin: 0;
+  font-family: var(--font-body, system-ui);
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #E2EBE6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.circular-carousel__card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-family: var(--font-heading, system-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #FFB380;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.circular-carousel__card:hover .circular-carousel__card-action {
+  color: #FFFFFF;
+  transform: translateX(4px);
+}
+
 @keyframes circular-carousel-title {
   from {
     opacity: 0;

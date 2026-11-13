@@ -930,6 +930,30 @@ export const CircularCarousel: React.FC<CircularCarouselProps> = ({
                 >
                   {tiles.map(tile => renderTile(item, tile, false, index))}
                   {layout.backfaces && tiles.map(tile => renderTile(item, tile, true, index))}
+                  <div
+                    className="circular-carousel__card-overlay"
+                    style={{
+                      left: -cardW / 2,
+                      top: -cardH / 2,
+                      width: cardW,
+                      height: cardH,
+                      borderRadius: cornerRadius
+                    }}
+                  >
+                    <div className="circular-carousel__card-content">
+                      <div className="circular-carousel__card-badge">Categoria</div>
+                      <h3 className="circular-carousel__card-name">{item.title || item.alt}</h3>
+                      {item.subtitle && (
+                        <p className="circular-carousel__card-desc">{item.subtitle}</p>
+                      )}
+                      <span className="circular-carousel__card-action">
+                        Ver produtos
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

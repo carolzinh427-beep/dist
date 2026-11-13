@@ -205,25 +205,17 @@ export const HomePage: React.FC = () => {
           <div className="carousel-wrapper-block">
             <CircularCarousel
               items={categoryCarouselItems}
-              preset="cylinder"
+              preset="orbit"
               intro="rise"
-              cardWidth={240}
-              aspectRatio={1}
-              gap={28}
-              speed={12}
-              captions={true}
+              cardWidth={340}
+              aspectRatio={1.38}
+              gap={32}
+              speed={10}
+              curve={0}
+              captions={false}
               fadeColor="#F7F8F4"
               onItemClick={handleCarouselItemClick}
             />
-          </div>
-
-          <div className="categories-quick-links" aria-label="Acesso direto por categoria">
-            {CATEGORIES.map((cat) => (
-              <Link key={cat.slug} to={`/categoria/${cat.slug}`} className="category-quick-btn">
-                <span>{cat.name}</span>
-                <small>{cat.packagingFocus}</small>
-              </Link>
-            ))}
           </div>
         </div>
       </section>

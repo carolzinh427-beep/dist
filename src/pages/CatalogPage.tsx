@@ -542,7 +542,7 @@ export const CatalogPage: React.FC = () => {
             </div>
           )}
 
-          {/* Grade Principal de Produtos */}
+          {/* Grade Principal de Produtos Dividida por Categoria */}
           <div className="catalog-main-area">
             {filteredProducts.length === 0 ? (
               <div className="empty-state-box" role="region" aria-label="Nenhum resultado encontrado">
@@ -556,11 +556,46 @@ export const CatalogPage: React.FC = () => {
                   Limpar todos os filtros
                 </button>
               </div>
+            ) : selectedCategory !== 'todas' ? (
+              /* Quando filtrado por uma categoria específica, exibe a grade dessa categoria com 4 produtos por linha */
+              <div className="catalog-category-section">
+                <div className="catalog-category-header">
+                  <h2 className="catalog-category-title">
+                    {CATEGORIES.find((c) => c.slug === selectedCategory)?.name || 'Produtos'}
+                  </h2>
+                  <span className="catalog-category-count">
+                    {filteredProducts.length} {filteredProducts.length === 1 ? 'produto' : 'produtos'}
+                  </span>
+                </div>
+                <div className="catalog-products-grid">
+                  {filteredProducts.map((product) => (
+                    <ProductCard key={product.code} product={product} />
+                  ))}
+                </div>
+              </div>
             ) : (
-              <div className="products-grid catalog-products-grid">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.code} product={product} />
-                ))}
+              /* Divisão por categorias: Alimentos, Limpeza, Higiene, Bebidas, etc. com 4 produtos por linha */
+              <div className="catalog-categories-flow">
+                {CATEGORIES.map((cat) => {
+                  const catProducts = filteredProducts.filter((p) => p.categorySlug === cat.slug);
+                  if (catProducts.length === 0) return null;
+
+                  return (
+                    <section key={cat.slug} className="catalog-category-section" aria-label={cat.name}>
+                      <div className="catalog-category-header">
+                        <h2 className="catalog-category-title">{cat.name}</h2>
+                        <span className="catalog-category-count">
+                          {catProducts.length} {catProducts.length === 1 ? 'produto' : 'produtos'}
+                        </span>
+                      </div>
+                      <div className="catalog-products-grid">
+                        {catProducts.map((product) => (
+                          <ProductCard key={product.code} product={product} />
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
               </div>
             )}
           </div>

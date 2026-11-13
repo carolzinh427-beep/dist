@@ -1362,6 +1362,96 @@ textarea:focus-visible,
   text-decoration: underline;
 }
 
+/* ==========================================================================
+   STEPPER NA HOME (REACT BITS)
+   ========================================================================== */
+.stepper-home-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 32px auto 0;
+}
+
+.stepper-pane-content {
+  padding: 12px 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepper-pane-step-tag {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--orange-accent);
+  letter-spacing: 0.5px;
+}
+
+.stepper-pane-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  color: #F7F8F4;
+  margin: 0;
+}
+
+.stepper-pane-desc {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #DDE2DA;
+  margin: 0;
+}
+
+.stepper-pane-highlight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #F7F8F4;
+  margin-top: 6px;
+}
+
+.stepper-completed-card {
+  text-align: center;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.stepper-completed-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--orange-accent);
+  color: var(--graphite);
+  display: grid;
+  place-items: center;
+}
+
+.stepper-completed-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #F7F8F4;
+  margin: 0;
+}
+
+.stepper-completed-desc {
+  font-size: 0.95rem;
+  color: #DDE2DA;
+  max-width: 440px;
+  margin: 0;
+}
+
 .process-steps-grid {
   list-style: none;
   display: grid;

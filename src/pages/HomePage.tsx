@@ -6,6 +6,7 @@ import { PageMeta } from '../components/PageMeta';
 import { ProductCard } from '../components/ProductCard';
 import { CircularCarousel, CarouselItem } from '../components/CircularCarousel';
 import Carousel, { CarouselItem as TiltCarouselItem } from '../components/Carousel';
+import Stepper, { Step } from '../components/Stepper';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -311,10 +312,10 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Seção: Do catálogo ao seu estoque */}
+      {/* Seção: Do catálogo ao seu estoque com Stepper */}
       <section className="section-block section-forest">
         <div className="container">
-          <div className="section-heading-row">
+          <div className="section-heading-row text-center-block">
             <div>
               <span className="section-kicker kicker-light">Fluxo de cotação</span>
               <h2 className="section-title text-light">Do catálogo ao seu estoque</h2>
@@ -324,36 +325,90 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <ol className="process-steps-grid">
-            <li className="process-step-card">
-              <span className="process-step-number">1</span>
-              <h3 className="process-step-title">Escolha os produtos</h3>
-              <p className="process-step-desc">
-                Navegue pelas categorias ou utilize a busca por nome, marca e código para localizar bebidas, alimentos, itens de limpeza e descartáveis
-              </p>
-            </li>
-            <li className="process-step-card">
-              <span className="process-step-number">2</span>
-              <h3 className="process-step-title">Informe as quantidades</h3>
-              <p className="process-step-desc">
-                Defina a quantidade de fardos, caixas, pacotes ou unidades conforme a necessidade de reposição do seu estabelecimento
-              </p>
-            </li>
-            <li className="process-step-card">
-              <span className="process-step-number">3</span>
-              <h3 className="process-step-title">Envie sua solicitação</h3>
-              <p className="process-step-desc">
-                Preencha seus dados básicos de contato comercial sem necessidade de enviar documentos ou CNPJ nesta etapa inicial
-              </p>
-            </li>
-            <li className="process-step-card">
-              <span className="process-step-number">4</span>
-              <h3 className="process-step-title">Receba a proposta da equipe</h3>
-              <p className="process-step-desc">
-                Nossa equipe comercial confere a disponibilidade dos itens, informa valores, condições de pagamento e programação de entrega na sua região
-              </p>
-            </li>
-          </ol>
+          <div className="stepper-home-wrapper">
+            <Stepper
+              initialStep={1}
+              theme="dark"
+              width={760}
+              radius={20}
+              backButtonText="Passo anterior"
+              nextButtonText="Próximo passo"
+              completeButtonText="Ir para o catálogo"
+              onFinalStepCompleted={() => navigate('/catalogo')}
+              completedContent={
+                <div className="stepper-completed-card">
+                  <div className="stepper-completed-badge">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <h3 className="stepper-completed-title">Tudo pronto para começar</h3>
+                  <p className="stepper-completed-desc">
+                    Navegue pelas categorias e adicione os fardos e caixas que sua empresa precisa repor nesta semana
+                  </p>
+                  <Link to="/catalogo" className="btn btn-primary">
+                    Explorar catálogo completo
+                  </Link>
+                </div>
+              }
+            >
+              <Step title="Escolha dos itens" description="Seleção no catálogo">
+                <div className="stepper-pane-content">
+                  <span className="stepper-pane-step-tag">Etapa 1 de 4</span>
+                  <h3 className="stepper-pane-title">Localize os produtos ideais</h3>
+                  <p className="stepper-pane-desc">
+                    Navegue pelas 6 categorias principais ou utilize a barra de busca por nome, marca e código SKU para encontrar bebidas, grãos, químicos e descartáveis
+                  </p>
+                  <div className="stepper-pane-highlight">
+                    <span className="badge-code">Dica de compra</span>
+                    <span>Consulte o fardo e a quantidade mínima indicada em cada card do catálogo</span>
+                  </div>
+                </div>
+              </Step>
+
+              <Step title="Quantidades" description="Fardos e caixas">
+                <div className="stepper-pane-content">
+                  <span className="stepper-pane-step-tag">Etapa 2 de 4</span>
+                  <h3 className="stepper-pane-title">Defina o volume para sua reposição</h3>
+                  <p className="stepper-pane-desc">
+                    Adicione à lista a quantidade de fardos, caixas fechadas ou galões de 5 litros conforme a demanda planejada para o seu estabelecimento
+                  </p>
+                  <div className="stepper-pane-highlight">
+                    <span className="badge-unit">Embalagens fechadas</span>
+                    <span>Todos os itens são distribuídos em caixas e fardos reforçados para transporte seguro</span>
+                  </div>
+                </div>
+              </Step>
+
+              <Step title="Envio da lista" description="Dados básicos">
+                <div className="stepper-pane-content">
+                  <span className="stepper-pane-step-tag">Etapa 3 de 4</span>
+                  <h3 className="stepper-pane-title">Envie sem burocracia cadastral</h3>
+                  <p className="stepper-pane-desc">
+                    Informe nome da empresa, contato e cidade de entrega na Grande Vitória para receber a cotação, sem envio obrigatório de documentos na primeira etapa
+                  </p>
+                  <div className="stepper-pane-highlight">
+                    <span className="badge-code">Agilidade comercial</span>
+                    <span>Sua lista é organizada diretamente para a nossa central de atendimento</span>
+                  </div>
+                </div>
+              </Step>
+
+              <Step title="Proposta e entrega" description="Atendimento comercial">
+                <div className="stepper-pane-content">
+                  <span className="stepper-pane-step-tag">Etapa 4 de 4</span>
+                  <h3 className="stepper-pane-title">Receba valores e agendamento de rota</h3>
+                  <p className="stepper-pane-desc">
+                    Nossa equipe confere o estoque no centro de distribuição em Serra e envia a proposta com prazos de entrega e condições comerciais para sua aprovação
+                  </p>
+                  <div className="stepper-pane-highlight">
+                    <span className="badge-unit">Entrega regional</span>
+                    <span>Rotas dedicadas para Serra, Vitória, Vila Velha, Cariacica e Viana</span>
+                  </div>
+                </div>
+              </Step>
+            </Stepper>
+          </div>
         </div>
       </section>
 

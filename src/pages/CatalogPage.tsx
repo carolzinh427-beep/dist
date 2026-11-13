@@ -26,7 +26,7 @@ export const CatalogPage: React.FC = () => {
   const [selectedUnit, setSelectedUnit] = useState('todas');
   const [activeUnitModal, setActiveUnitModal] = useState<string>('fardo');
   const [sortBy, setSortBy] = useState<SortOption>('relevancia');
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
   const unitsGuideDetails: Record<string, { title: string; subtitle: string; explanation: string; example: string; tag: string }> = {
     fardo: {
@@ -285,23 +285,55 @@ export const CatalogPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Corpo do Catálogo com Filtros Laterais e Grade */}
+      {/* Corpo do Catálogo com Barra de Busca/Filtros e Grade */}
       <section className="section-block section-warm">
         <div className="container">
-          {/* Barra de Controle Mobile e Ordenação */}
+          {/* Barra de Filtro e Busca com Símbolo de Filtro Interativo */}
           <div className="catalog-toolbar">
             <div className="catalog-toolbar-left">
               <button
                 type="button"
-                className="btn btn-secondary mobile-filter-open-btn"
-                onClick={() => setMobileFilterOpen(true)}
-                aria-expanded={mobileFilterOpen}
-                aria-controls="catalog-filters-aside"
+                className={`catalog-filter-trigger-btn ${filterDrawerOpen ? 'active' : ''}`}
+                onClick={() => setFilterDrawerOpen((prev) => !prev)}
+                aria-expanded={filterDrawerOpen}
+                aria-controls="catalog-filters-drawer"
               >
-                Filtrar produtos {activeFiltersCount > 0 ? `(${activeFiltersCount})` : ''}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                </svg>
+                <span>Filtros</span>
+                {activeFiltersCount > 0 && (
+                  <span className="filter-count-badge">{activeFiltersCount}</span>
+                )}
               </button>
+
+              <div className="catalog-inline-search-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Pesquisar por nome, código SKU ou marca..."
+                  className="catalog-inline-search-input"
+                  aria-label="Pesquisar produtos"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="catalog-inline-search-clear"
+                    aria-label="Limpar texto pesquisado"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
               <span className="catalog-results-count" role="status">
-                Exibindo {filteredProducts.length} de {PRODUCTS.length} produtos demonstrativos
+                Exibindo <strong>{filteredProducts.length}</strong> de {PRODUCTS.length} produtos
               </span>
             </div>
 
@@ -322,29 +354,85 @@ export const CatalogPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="catalog-layout">
-            {/* Painel de Filtros (Lateral no Desktop / Painel Modal no Celular) */}
-            <aside
-              id="catalog-filters-aside"
-              className={`catalog-sidebar ${mobileFilterOpen ? 'open' : ''}`}
-              aria-label="Filtros do catálogo"
+          {/* Chips de Filtros Ativos (aparece o que a pessoa pesquisou/filtrou) */}
+          {activeFiltersCount > 0 && (
+            <div className="active-filters-chips-row" aria-label="Filtros aplicados">
+              <span className="active-filters-label">Filtros aplicados:</span>
+
+              {searchQuery.trim() && (
+                <span className="active-filter-chip">
+                  Busca: "{searchQuery}"
+                  <button type="button" onClick={() => setSearchQuery('')} aria-label="Remover busca">×</button>
+                </span>
+              )}
+
+              {selectedCategory !== 'todas' && (
+                <span className="active-filter-chip">
+                  Categoria: {CATEGORIES.find((c) => c.slug === selectedCategory)?.name || selectedCategory}
+                  <button type="button" onClick={() => setSelectedCategory('todas')} aria-label="Remover filtro de categoria">×</button>
+                </span>
+              )}
+
+              {selectedUnit !== 'todas' && (
+                <span className="active-filter-chip">
+                  Unidade: {selectedUnit}
+                  <button type="button" onClick={() => setSelectedUnit('todas')} aria-label="Remover filtro de unidade">×</button>
+                </span>
+              )}
+
+              {selectedPackaging !== 'todas' && (
+                <span className="active-filter-chip">
+                  Embalagem: {selectedPackaging}
+                  <button type="button" onClick={() => setSelectedPackaging('todas')} aria-label="Remover filtro de embalagem">×</button>
+                </span>
+              )}
+
+              {selectedBrand !== 'todas' && (
+                <span className="active-filter-chip">
+                  Marca: {selectedBrand}
+                  <button type="button" onClick={() => setSelectedBrand('todas')} aria-label="Remover filtro de marca">×</button>
+                </span>
+              )}
+
+              <button
+                type="button"
+                onClick={handleClearFilters}
+                className="clear-all-chips-btn"
+              >
+                Limpar todos
+              </button>
+            </div>
+          )}
+
+          {/* Painel Retrátil de Filtros Acionado pelo Símbolo de Filtro */}
+          {filterDrawerOpen && (
+            <div
+              id="catalog-filters-drawer"
+              className="catalog-filters-popdown"
+              role="region"
+              aria-label="Opções de filtros avançados"
             >
-              <div className="sidebar-mobile-header">
-                <h2 className="sidebar-heading">Filtros do catálogo</h2>
+              <div className="filters-popdown-header">
+                <div className="filters-popdown-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                  </svg>
+                  <h3>Filtrar catálogo</h3>
+                </div>
                 <button
                   type="button"
-                  onClick={() => setMobileFilterOpen(false)}
-                  className="sidebar-close-btn"
+                  onClick={() => setFilterDrawerOpen(false)}
+                  className="filters-popdown-close"
                   aria-label="Fechar painel de filtros"
                 >
-                  Fechar
+                  ✕
                 </button>
               </div>
 
-              <div className="sidebar-filters-body">
+              <div className="filters-popdown-grid">
                 <div className="filter-field">
                   <label htmlFor="filter-search" className="filter-label">
-                    Busca por nome ou código
+                    Termo ou código SKU
                   </label>
                   <input
                     id="filter-search"
@@ -431,59 +519,50 @@ export const CatalogPage: React.FC = () => {
                     ))}
                   </select>
                 </div>
+              </div>
 
-                <div className="sidebar-actions">
-                  <button
-                    type="button"
-                    onClick={() => setMobileFilterOpen(false)}
-                    className="btn btn-primary sidebar-apply-btn"
-                  >
-                    Aplicar filtros
-                  </button>
+              <div className="filters-popdown-actions">
+                <button
+                  type="button"
+                  onClick={() => setFilterDrawerOpen(false)}
+                  className="btn btn-primary"
+                >
+                  Ver resultados ({filteredProducts.length})
+                </button>
+                {activeFiltersCount > 0 && (
                   <button
                     type="button"
                     onClick={handleClearFilters}
-                    className="btn btn-secondary sidebar-clear-btn"
+                    className="btn btn-secondary"
                   >
-                    Limpar filtros
-                  </button>
-                </div>
-              </div>
-
-              <div className="sidebar-category-links">
-                <h3 className="sidebar-subheading">Páginas de categoria</h3>
-                <ul>
-                  {CATEGORIES.map((cat) => (
-                    <li key={cat.slug}>
-                      <Link to={`/categoria/${cat.slug}`}>{cat.name}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </aside>
-
-            {/* Grade Principal de Produtos */}
-            <div className="catalog-main-area">
-              {filteredProducts.length === 0 ? (
-                <div className="empty-state-box" role="region" aria-label="Nenhum resultado encontrado">
-                  <h2 className="empty-state-title">
-                    Nenhum produto encontrado para os filtros selecionados
-                  </h2>
-                  <p className="empty-state-desc">
-                    Experimente limpar os filtros ativos ou buscar por outro termo como Água, Arroz, Café, Detergente ou Copo descartável
-                  </p>
-                  <button type="button" onClick={handleClearFilters} className="btn btn-primary">
                     Limpar todos os filtros
                   </button>
-                </div>
-              ) : (
-                <div className="products-grid catalog-products-grid">
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.code} product={product} />
-                  ))}
-                </div>
-              )}
+                )}
+              </div>
             </div>
+          )}
+
+          {/* Grade Principal de Produtos */}
+          <div className="catalog-main-area">
+            {filteredProducts.length === 0 ? (
+              <div className="empty-state-box" role="region" aria-label="Nenhum resultado encontrado">
+                <h2 className="empty-state-title">
+                  Nenhum produto encontrado para os filtros selecionados
+                </h2>
+                <p className="empty-state-desc">
+                  Experimente limpar os filtros ativos ou buscar por outro termo como Água, Arroz, Café, Detergente ou Copo descartável
+                </p>
+                <button type="button" onClick={handleClearFilters} className="btn btn-primary">
+                  Limpar todos os filtros
+                </button>
+              </div>
+            ) : (
+              <div className="products-grid catalog-products-grid">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.code} product={product} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>

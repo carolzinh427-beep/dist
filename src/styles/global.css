@@ -2140,17 +2140,21 @@ textarea:focus-visible,
   color: var(--graphite);
 }
 
+/* ==========================================================================
+   BARRA DE FERRAMENTAS DO CATÁLOGO E BOTÃO SÍMBOLO DE FILTRO
+   ========================================================================== */
 .catalog-toolbar {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding: 14px 16px;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 12px 18px;
   background-color: var(--surface-white);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(18, 61, 50, 0.04);
 }
 
 .catalog-toolbar-left {
@@ -2158,6 +2162,263 @@ textarea:focus-visible,
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+  flex: 1;
+}
+
+.catalog-filter-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  min-height: 42px;
+  background-color: var(--green-primary);
+  color: #FFFFFF;
+  border: 1.5px solid var(--green-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.catalog-filter-trigger-btn:hover,
+.catalog-filter-trigger-btn.active {
+  background-color: var(--green-secondary);
+  border-color: var(--green-secondary);
+  transform: translateY(-1px);
+}
+
+.filter-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: var(--orange-accent);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.catalog-inline-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 240px;
+  max-width: 440px;
+}
+
+.catalog-inline-search-wrap svg {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.catalog-inline-search-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 36px 8px 38px;
+  background-color: var(--warm-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--graphite);
+  transition: all 0.2s ease;
+}
+
+.catalog-inline-search-input:focus {
+  background-color: var(--surface-white);
+  border-color: var(--green-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(18, 61, 50, 0.1);
+}
+
+.catalog-inline-search-clear {
+  position: absolute;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: var(--graphite);
+  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.catalog-inline-search-clear:hover {
+  background-color: rgba(0, 0, 0, 0.18);
+}
+
+/* ==========================================================================
+   LINHA DE CHIPS COM O QUE A PESSOA PESQUISOU E FILTROU
+   ========================================================================== */
+.active-filters-chips-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background-color: #EEF2EE;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--green-primary);
+  animation: fadeIn 0.2s ease;
+}
+
+.active-filters-label {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--green-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.active-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--surface-white);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 3px 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--graphite);
+}
+
+.active-filter-chip button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.active-filter-chip button:hover {
+  color: #C53030;
+}
+
+.clear-all-chips-btn {
+  background: none;
+  border: none;
+  color: var(--orange-accent);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 6px;
+}
+
+.clear-all-chips-btn:hover {
+  color: #C05621;
+}
+
+/* ==========================================================================
+   PAINEL RETRÁTIL DE FILTROS (POPDOWN ACIONADO PELO SÍMBOLO)
+   ========================================================================== */
+.catalog-filters-popdown {
+  background-color: var(--surface-white);
+  border: 1.5px solid var(--border-color);
+  border-top: 3px solid var(--green-primary);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 25px -5px rgba(18, 61, 50, 0.12);
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filters-popdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filters-popdown-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green-primary);
+}
+
+.filters-popdown-title h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.filters-popdown-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.filters-popdown-close:hover {
+  background-color: var(--surface-subtle);
+  color: var(--graphite);
+}
+
+.filters-popdown-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .filters-popdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .filters-popdown-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.filters-popdown-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.catalog-main-area {
+  width: 100%;
 }
 
 @media (min-width: 960px) {

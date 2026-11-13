@@ -9,6 +9,7 @@ import {
 } from '../data/products';
 import { PageMeta } from '../components/PageMeta';
 import { ProductCard } from '../components/ProductCard';
+import GlassIcons, { GlassIconsItem } from '../components/GlassIcons';
 
 type SortOption = 'relevancia' | 'nome-asc' | 'nome-desc';
 
@@ -23,8 +24,95 @@ export const CatalogPage: React.FC = () => {
   const [selectedBrand, setSelectedBrand] = useState('todas');
   const [selectedPackaging, setSelectedPackaging] = useState('todas');
   const [selectedUnit, setSelectedUnit] = useState('todas');
+  const [activeUnitModal, setActiveUnitModal] = useState<string>('fardo');
   const [sortBy, setSortBy] = useState<SortOption>('relevancia');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  const unitsGuideDetails: Record<string, { title: string; subtitle: string; explanation: string; example: string; tag: string }> = {
+    fardo: {
+      title: 'Fardo Fechado',
+      subtitle: 'Agrupamento em filme termoencolhível',
+      explanation: 'Conjunto de embalagens primárias mantidas juntas por plástico de alta densidade termoencolhível ou cinta protetora, ideal para transporte, empilhamento em estoque e revenda sem danos',
+      example: 'Água mineral 500 ml em fardo com 12 garrafas ou arroz 5 kg em fardo reforçado com 6 pacotes',
+      tag: 'Bebidas e grãos'
+    },
+    caixa: {
+      title: 'Caixa Coletiva de Embarque',
+      subtitle: 'Proteção em papelão ondulado',
+      explanation: 'Embalagem externa coletiva de papelão estruturado projetada para absorver impactos e proteger frascos de vidro, latas de alumínio, óleos ou sachês durante o transporte e armazenagem',
+      example: 'Óleo de soja 900 ml em caixa com 20 unidades ou detergente 500 ml em caixa fechada com 24 frascos',
+      tag: 'Químicos, óleos e latas'
+    },
+    pacote: {
+      title: 'Pacote Institucional',
+      subtitle: 'Agrupamento compacto pronto para uso',
+      explanation: 'Embalagem compacta de itens consumíveis ou descartáveis, organizada para abastecimento direto de dispensers em banheiros, copas, recepções ou balcões sem necessidade de fracionamento',
+      example: 'Copo descartável 200 ml em pacote com 100 copos ou papel toalha interfolhado em pacotes de folhas duplas',
+      tag: 'Copas e dispensers'
+    },
+    unidade: {
+      title: 'Unidade de Grande Volume',
+      subtitle: 'Recipiente profissional independente',
+      explanation: 'Item comercializado de forma avulsa quando a própria embalagem já contém um volume expressivo e suficiente para a operação profissional, sem necessidade de embalagem coletiva',
+      example: 'Sabonete líquido concentrado ou desinfetante hospitalar em galão individual de 5 litros',
+      tag: 'Galões de 5 L'
+    }
+  };
+
+  const currentUnitInfo = unitsGuideDetails[activeUnitModal] || unitsGuideDetails.fardo;
+
+  const catalogGlassItems: GlassIconsItem[] = [
+    {
+      id: 'fardo',
+      label: 'Fardo',
+      color: 'green',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+          <path d="M2 12h20" />
+        </svg>
+      ),
+      onClick: () => setActiveUnitModal('fardo')
+    },
+    {
+      id: 'caixa',
+      label: 'Caixa',
+      color: 'orange',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M21 8l-9-5-9 5 9 5 9-5z" />
+          <path d="M3 8v8l9 5 9-5V8" />
+          <path d="M12 13v8" />
+        </svg>
+      ),
+      onClick: () => setActiveUnitModal('caixa')
+    },
+    {
+      id: 'pacote',
+      label: 'Pacote',
+      color: 'teal',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <path d="M3 9h18M9 21V9" />
+        </svg>
+      ),
+      onClick: () => setActiveUnitModal('pacote')
+    },
+    {
+      id: 'unidade',
+      label: 'Unidade',
+      color: 'green',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M6 3h12l2 6v11a2 2 0 01-2 2H6a2 2 0 01-2-2V9l2-6z" />
+          <path d="M10 13h4M10 3v6" />
+        </svg>
+      ),
+      onClick: () => setActiveUnitModal('unidade')
+    }
+  ];
 
   useEffect(() => {
     setSearchQuery(searchParams.get('busca') ?? '');
@@ -135,26 +223,64 @@ export const CatalogPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Guia de Unidades de Comercialização */}
+      {/* Guia de Unidades de Comercialização com GlassIcons interativo */}
       <section className="units-guide-section" aria-label="Entenda as unidades de comercialização">
         <div className="container">
           <div className="units-guide-header">
-            <h2 className="units-guide-title">
-              Diferença entre unidade, pacote, caixa e fardo
-            </h2>
-            <span className="units-guide-note">
-              Verifique a unidade comercial indicada em cada item antes de informar a quantidade
-            </span>
+            <div>
+              <h2 className="units-guide-title">
+                Diferença entre unidade, pacote, caixa e fardo
+              </h2>
+              <span className="units-guide-note">
+                Clique nos ícones em vidro verde e transparente para ver a informação de cada modalidade
+              </span>
+            </div>
           </div>
-          <div className="units-guide-grid">
-            {COMMERCIAL_UNIT_GUIDE.map((item) => (
-              <div key={item.unit} className="unit-guide-card">
-                <div className="unit-guide-badge">{item.unit}</div>
-                <h3 className="unit-guide-heading">{item.title}</h3>
-                <p className="unit-guide-text">{item.explanation}</p>
-                <p className="unit-guide-example">Exemplo: {item.example}</p>
+
+          <div className="glass-units-showcase">
+            <div className="glass-units-icons-holder">
+              <GlassIcons
+                items={catalogGlassItems}
+                size={86}
+                gap={32}
+                columns={4}
+                roundness={0.5}
+                refraction={0.85}
+                bevel={0.65}
+                dispersion={0.05}
+                frost={0.25}
+                shine={0.9}
+                tint="#123D32"
+                tintOpacity={0.28}
+                iconColor="#FFFFFF"
+                plate="tilt"
+                tilt={24}
+                spread={0.45}
+                hover="press"
+                parallax={0.8}
+                labels="always"
+                intro={true}
+                theme="dark"
+              />
+            </div>
+
+            <div className="glass-unit-info-card" key={activeUnitModal}>
+              <div className="glass-unit-info-header">
+                <div className="glass-unit-info-pill">
+                  <span className="badge-unit">{currentUnitInfo.tag}</span>
+                </div>
+                <h3 className="glass-unit-info-title">{currentUnitInfo.title}</h3>
+                <span className="glass-unit-info-subtitle">{currentUnitInfo.subtitle}</span>
               </div>
-            ))}
+
+              <div className="glass-unit-info-body">
+                <p className="glass-unit-info-desc">{currentUnitInfo.explanation}</p>
+                <div className="glass-unit-info-example">
+                  <strong>Exemplo prático de embalagem:</strong>
+                  <span>{currentUnitInfo.example}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

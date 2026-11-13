@@ -237,3 +237,4 @@ export const BUSINESS_SEGMENTS: BusinessSegment[] = [
     recommendedCategories: ['produtos-de-limpeza', 'higiene-profissional', 'descartaveis-e-embalagens'],
   },
 ];
+

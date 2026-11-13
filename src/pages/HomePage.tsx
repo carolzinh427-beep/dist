@@ -16,64 +16,38 @@ export const HomePage: React.FC = () => {
         description="Vértice Distribuidora em Serra, Espírito Santo Bebidas, alimentos, produtos de limpeza, higiene profissional e descartáveis para empresas da Grande Vitória"
       />
 
-      {/* Primeira Dobra (Hero) */}
-      <section className="hero-section">
-        <div className="container hero-grid">
-          <div className="hero-copy-col">
-            <span className="hero-regional-tag">
-              {COMPANY_CONFIG.regionalTagline}
-            </span>
-            <h1 className="hero-heading">
-              O abastecimento que acompanha o ritmo do seu negócio
-            </h1>
-            <p className="hero-lead">
-              Bebidas, alimentos e produtos de limpeza para empresas da Grande Vitória, com atendimento próximo e pedidos organizados em um só lugar
-            </p>
+      {/* Primeira Dobra (Hero com imagem de distribuidora ao fundo e frase centralizada) */}
+      <section className="hero-section" aria-label="Apresentação principal">
+        <div className="hero-bg-media" aria-hidden="true">
+          <img
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80"
+            alt=""
+            width={1600}
+            height={720}
+            fetchPriority="high"
+            className="hero-bg-img"
+          />
+          <div className="hero-bg-overlay" />
+        </div>
 
-            <div className="hero-actions">
-              <Link to="/catalogo" className="btn btn-accent btn-lg">
-                Explorar catálogo
-              </Link>
-              <Link to="/orcamento" className="btn btn-outline-light btn-lg">
-                Montar meu orçamento
-              </Link>
-            </div>
+        <div className="container hero-centered-inner">
+          <span className="hero-regional-tag">
+            {COMPANY_CONFIG.regionalTagline}
+          </span>
+          <h1 className="hero-heading">
+            O abastecimento que acompanha o ritmo do seu negócio
+          </h1>
+          <p className="hero-lead">
+            Bebidas, alimentos e produtos de limpeza para empresas da Grande Vitória, com atendimento próximo e pedidos organizados em um só lugar
+          </p>
 
-            <div className="hero-operational-strip" aria-label="Estrutura de atendimento">
-              <div className="operational-item">
-                <strong>Catálogo organizado por volume</strong>
-                <span>Fardos, caixas fechadas, pacotes e galões identificados com clareza</span>
-              </div>
-              <div className="operational-item">
-                <strong>Atendimento na Grande Vitória</strong>
-                <span>Cobertura em Serra, Vitória, Vila Velha, Cariacica e Viana</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="hero-visual-col">
-            <figure className="hero-operation-figure">
-              <div className="hero-photo-frame">
-                <img
-                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=960&q=80"
-                  alt="Corredor de centro de distribuição com paletes e caixas organizadas em porta-paletes"
-                  width={640}
-                  height={460}
-                  fetchPriority="high"
-                  className="hero-photo-img"
-                />
-                <div className="hero-photo-overlay-panel">
-                  <div className="overlay-panel-title">Organização de pedidos empresariais</div>
-                  <div className="overlay-panel-row">
-                    <span>Separação por fardo, caixa e pacote</span>
-                    <span>Base em Serra, ES</span>
-                  </div>
-                </div>
-              </div>
-              <figcaption className="hero-figcaption">
-                Imagem meramente ilustrativa de operação logística de armazenamento e distribuição
-              </figcaption>
-            </figure>
+          <div className="hero-actions">
+            <Link to="/catalogo" className="btn btn-accent btn-lg">
+              Explorar catálogo
+            </Link>
+            <Link to="/orcamento" className="btn btn-outline-light btn-lg">
+              Montar meu orçamento
+            </Link>
           </div>
         </div>
       </section>
@@ -285,3 +259,4 @@ export const HomePage: React.FC = () => {
     </>
   );
 };
+

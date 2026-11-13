@@ -359,3 +359,4 @@ export const CategoryVisual: React.FC<{ slug: CategorySlug }> = ({ slug }) => {
     </svg>
   );
 };
+

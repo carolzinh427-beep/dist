@@ -133,3 +133,4 @@ export const CategoryPage: React.FC = () => {
     </>
   );
 };
+

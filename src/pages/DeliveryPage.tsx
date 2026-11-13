@@ -300,3 +300,4 @@ export const DeliveryPage: React.FC = () => {
     </>
   );
 };
+

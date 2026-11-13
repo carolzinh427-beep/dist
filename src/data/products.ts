@@ -649,3 +649,4 @@ export const FAQ_ITEMS: FaqItem[] = [
       'As modalidades de pagamento e eventuais prazos de faturamento são confirmados diretamente pela equipe comercial após a revisão dos itens e do volume solicitado no orçamento',
   },
 ];
+

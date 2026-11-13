@@ -24,3 +24,4 @@ export const PageMeta: React.FC<PageMetaProps> = ({ title, description }) => {
 
   return null;
 };
+

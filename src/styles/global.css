@@ -828,6 +828,74 @@ textarea:focus-visible,
 }
 
 /* ==========================================================================
+   CARROSSEL CIRCULAR DE CATEGORIAS
+   ========================================================================== */
+.carousel-wrapper-block {
+  width: 100%;
+  height: 480px;
+  position: relative;
+  margin: 16px 0 24px;
+  border-radius: var(--radius-md);
+  background-color: var(--warm-white);
+}
+
+@media (min-width: 768px) {
+  .carousel-wrapper-block {
+    height: 540px;
+  }
+}
+
+.categories-quick-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (min-width: 640px) {
+  .categories-quick-links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .categories-quick-links {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.category-quick-btn {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  background-color: var(--surface-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.category-quick-btn:hover {
+  border-color: var(--green-primary);
+  background-color: var(--surface-subtle);
+  transform: translateY(-2px);
+}
+
+.category-quick-btn span {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--green-primary);
+  line-height: 1.2;
+}
+
+.category-quick-btn small {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ==========================================================================
    GRADE DE CATEGORIAS
    ========================================================================== */
 .categories-grid {

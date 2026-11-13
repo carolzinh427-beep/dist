@@ -1,13 +1,66 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BUSINESS_SEGMENTS, COMPANY_CONFIG, MUNICIPALITIES_COVERAGE } from '../config/company';
 import { CATEGORIES, PRODUCTS } from '../data/products';
 import { PageMeta } from '../components/PageMeta';
 import { ProductCard } from '../components/ProductCard';
-import { CategoryVisual } from '../components/ProductVisual';
+import { CircularCarousel, CarouselItem } from '../components/CircularCarousel';
 
 export const HomePage: React.FC = () => {
+  const navigate = useNavigate();
   const featuredProducts = PRODUCTS.filter((p) => p.featuredOnHome);
+
+  // Mapeamento das 6 categorias com fotos temáticas de alta qualidade para o CircularCarousel
+  const categoryCarouselItems: CarouselItem[] = [
+    {
+      src: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      alt: 'Bebidas não alcoólicas: águas minerais, sucos e refrigerantes',
+      title: 'Bebidas Não Alcoólicas',
+      subtitle: 'Águas, Sucos e Refrigerantes',
+      slug: 'bebidas-nao-alcoolicas'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=800&q=80',
+      alt: 'Cervejas e bebidas alcoólicas: latas e garrafas em caixas fechadas',
+      title: 'Cervejas e Alcoólicas',
+      subtitle: 'Latas e Garrafas em Caixas Fechadas',
+      slug: 'cervejas-e-bebidas-alcoolicas'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
+      alt: 'Alimentos e mercearia seca: grãos, cafés e óleos em fardos',
+      title: 'Alimentos e Mercearia',
+      subtitle: 'Arroz, Feijão, Café e Óleos em Fardos',
+      slug: 'alimentos-e-mercearia'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=800&q=80',
+      alt: 'Produtos de limpeza: detergentes, desinfetantes e limpadores',
+      title: 'Produtos de Limpeza',
+      subtitle: 'Detergentes, Desinfetantes e Químicos',
+      slug: 'produtos-de-limpeza'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
+      alt: 'Higiene profissional: galões de sabonete e papéis institucionais',
+      title: 'Higiene Profissional',
+      subtitle: 'Sabonete 5 L e Papéis Institucionais',
+      slug: 'higiene-profissional'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=800&q=80',
+      alt: 'Descartáveis e embalagens: copos, mangas e sacos de lixo',
+      title: 'Descartáveis e Embalagens',
+      subtitle: 'Copos Plásticos e Sacos 100 L',
+      slug: 'descartaveis-e-embalagens'
+    }
+  ];
+
+  const handleCarouselItemClick = (item: CarouselItem) => {
+    if (item.slug) {
+      navigate(`/categoria/${item.slug}`);
+    }
+  };
 
   return (
     <>
@@ -52,7 +105,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Seção de Categorias */}
+      {/* Seção de Categorias com CircularCarousel */}
       <section className="section-block section-warm">
         <div className="container">
           <div className="section-heading-row">
@@ -60,7 +113,7 @@ export const HomePage: React.FC = () => {
               <span className="section-kicker">Mix de distribuição</span>
               <h2 className="section-title">Categorias para abastecimento completo</h2>
               <p className="section-subtitle">
-                Reúna bebidas, mercearia seca, limpeza, higiene institucional e descartáveis em uma única solicitação de orçamento
+                Gire o carrossel ou clique no card para explorar bebidas, mercearia seca, produtos de limpeza, higiene e descartáveis
               </p>
             </div>
             <Link to="/catalogo" className="btn btn-secondary">
@@ -68,24 +121,26 @@ export const HomePage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="categories-grid">
-            {CATEGORIES.map((category) => (
-              <Link
-                key={category.slug}
-                to={`/categoria/${category.slug}`}
-                className="category-card"
-              >
-                <div className="category-card-visual">
-                  <CategoryVisual slug={category.slug} />
-                </div>
-                <div className="category-card-content">
-                  <h3 className="category-card-title">{category.name}</h3>
-                  <p className="category-card-desc">{category.shortDescription}</p>
-                  <div className="category-card-meta">
-                    <span>{category.packagingFocus}</span>
-                    <span className="category-card-action">Explorar linha</span>
-                  </div>
-                </div>
+          <div className="carousel-wrapper-block">
+            <CircularCarousel
+              items={categoryCarouselItems}
+              preset="cylinder"
+              intro="rise"
+              cardWidth={240}
+              aspectRatio={1}
+              gap={28}
+              speed={12}
+              captions={true}
+              fadeColor="#F7F8F4"
+              onItemClick={handleCarouselItemClick}
+            />
+          </div>
+
+          <div className="categories-quick-links" aria-label="Acesso direto por categoria">
+            {CATEGORIES.map((cat) => (
+              <Link key={cat.slug} to={`/categoria/${cat.slug}`} className="category-quick-btn">
+                <span>{cat.name}</span>
+                <small>{cat.packagingFocus}</small>
               </Link>
             ))}
           </div>

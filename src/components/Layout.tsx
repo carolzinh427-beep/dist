@@ -57,7 +57,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <header className="site-header">
         <div className="container header-primary-row">
           <Link to="/" className="header-brand-link" aria-label="Vértice Distribuidora Página Inicial">
-            <BrandLogo variant="default" size="md" />
+            <BrandLogo variant="light" size="md" />
           </Link>
 
           {/* Busca Desktop */}
@@ -114,6 +114,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <span className="quote-link-label">Lista</span>
               <span className="quote-count-pill">{totalDistinctItems}</span>
             </Link>
+
+            <a
+              href="https://wa.me/5527999999999?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o%20para%20minha%20empresa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-whatsapp-btn"
+              aria-label="Falar no WhatsApp"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+              </svg>
+              <span className="header-whatsapp-label">WhatsApp</span>
+            </a>
 
             <Link to="/orcamento" className="btn btn-accent header-cta-btn">
               Solicitar orçamento
@@ -287,86 +300,65 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         )}
       </div>
 
-      {/* Rodapé Institucional */}
-      <footer className="site-footer">
+      {/* Rodapé Compacto Verticalmente */}
+      <footer className="site-footer site-footer-compact">
         <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand-col">
-              <BrandLogo variant="light" size="md" />
-              <p className="footer-slogan">{COMPANY_CONFIG.slogan}</p>
-              <p className="footer-meta-line">
-                Base operacional demonstrativa: {COMPANY_CONFIG.location.city}, {COMPANY_CONFIG.location.state}
-              </p>
-              <p className="footer-meta-line">
-                Região de cobertura ilustrativa: {COMPANY_CONFIG.coverageAreas.join(', ')}
-              </p>
-              <p className="footer-meta-line">
-                Horário ilustrativo: {COMPANY_CONFIG.businessHours.summary}
+          <div className="footer-compact-row">
+            <div className="footer-brand-summary">
+              <BrandLogo variant="light" size="sm" />
+              <p className="footer-slogan-compact">{COMPANY_CONFIG.slogan}</p>
+              <p className="footer-meta-compact">
+                Base demonstrativa em Serra, Espírito Santo Atendimento para Serra, Vitória, Vila Velha, Cariacica e Viana
               </p>
             </div>
 
-            <div>
-              <h2 className="footer-heading">Navegação</h2>
-              <ul className="footer-links">
-                <li>
-                  <Link to="/">Início</Link>
-                </li>
-                <li>
-                  <Link to="/catalogo">Catálogo de produtos</Link>
-                </li>
-                <li>
-                  <Link to="/orcamento">Lista de orçamento</Link>
-                </li>
-                <li>
-                  <Link to="/entregas">Entregas e regiões atendidas</Link>
-                </li>
-                <li>
-                  <Link to="/sobre">Sobre a Vértice</Link>
-                </li>
-                <li>
-                  <Link to="/atendimento">Atendimento e dúvidas</Link>
-                </li>
-              </ul>
-            </div>
+            <nav className="footer-quick-nav" aria-label="Links rápidos do rodapé">
+              <Link to="/catalogo">Catálogo</Link>
+              <Link to="/orcamento">Orçamento</Link>
+              <Link to="/entregas">Regiões</Link>
+              <Link to="/sobre">Sobre</Link>
+              <Link to="/atendimento">Atendimento</Link>
+              <Link to="/privacidade">Privacidade</Link>
+              <Link to="/termos">Termos</Link>
+            </nav>
 
-            <div>
-              <h2 className="footer-heading">Categorias</h2>
-              <ul className="footer-links">
-                {CATEGORIES.map((cat) => (
-                  <li key={cat.slug}>
-                    <Link to={`/categoria/${cat.slug}`}>{cat.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="footer-heading">Atendimento e configuração</h2>
-              <p className="footer-config-status">
-                {COMPANY_CONFIG.contacts.phone
-                  ? `Telefone: ${COMPANY_CONFIG.contacts.phone}`
-                  : 'Canais de telefone, WhatsApp, endereço físico e e-mail preparados para configuração antes da publicação comercial'}
-              </p>
-              <div className="footer-cta-stack">
-                <Link to="/orcamento" className="btn btn-accent">
-                  Montar meu orçamento
-                </Link>
-                <Link to="/atendimento" className="btn btn-outline-light">
-                  Canal de atendimento
-                </Link>
-              </div>
+            <div className="footer-quick-actions">
+              <a
+                href="https://wa.me/5527999999999?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20de%20abastecimento"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-whatsapp-compact"
+                aria-label="Abrir conversa no WhatsApp"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+                <span>WhatsApp</span>
+              </a>
             </div>
           </div>
 
-          <div className="footer-bottom">
-            <p className="footer-demo-disclaimer">{COMPANY_CONFIG.demoNotice}</p>
-            <div className="footer-legal-links">
-              <Link to="/privacidade">Privacidade</Link>
-              <Link to="/termos">Termos de uso</Link>
-            </div>
+          <div className="footer-bottom-compact">
+            <span className="footer-demo-note">{COMPANY_CONFIG.demoNotice}</span>
           </div>
         </div>
       </footer>
+
+      {/* Botão Flutuante de WhatsApp */}
+      <a
+        href="https://wa.me/5527999999999?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o%20para%20minha%20empresa"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="floating-whatsapp-btn"
+        aria-label="Falar com a equipe no WhatsApp"
+      >
+        <span className="floating-whatsapp-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
+        </span>
+        <span className="floating-whatsapp-label">WhatsApp</span>
+      </a>
 
       {/* Barra Inferior Mobile (Início, Catálogo e Orçamento) */}
       <nav className="mobile-bottom-bar" aria-label="Acesso rápido móvel">
